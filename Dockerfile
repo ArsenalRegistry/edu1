@@ -1,17 +1,16 @@
-FROM python:3.8-slim
+# Step 1: Use the official NGINX image from the Docker Hub
+FROM nginx:latest
 
-# set the working directory in the container to /app
-WORKDIR /app
+# Step 2: Copy a custom NGINX configuration file into the container
+# You can replace `nginx.conf` with your own NGINX configuration if needed
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# add the current directory to the container as /app
-ADD . /app
+# Step 3: Copy static website files into the default NGINX HTML directory
+# Replace `index.html` and other files with your own static website content
+COPY static-html-directory /usr/share/nginx/html
 
-RUN pip install -r requirements.txt
+# Step 4: Expose port 80 for the NGINX server
+EXPOSE 80
 
-RUN ln -snf /usr/share/zoneinfo/Asia/Seoul /etc/localtime && echo Asia/Seoul > /etc/timezone
-
-# unblock port 80 for the Flask app to run on
-EXPOSE 40003
-
-# execute the Flask app
-CMD ["python", "app.py"]
+# Step 5: Define the command to run NGINX in the foreground
+CMD ["nginx", "-g", "daemon off;"]
