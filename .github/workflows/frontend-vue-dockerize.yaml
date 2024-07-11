@@ -54,7 +54,7 @@ jobs:
       - name: Update deployment.yaml with new image
         run: |
           IMAGE_TAG=${{ secrets.AZURE_URL }}/frontend-vue:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}
-          sed -i "s|<IMAGE_PLACEHOLDER>|$IMAGE_TAG|g" edu1-gitops-dev/frontend-vue/kustomize/deployment.yaml
+          sed -i "s|<IMAGE_PLACEHOLDER>|$IMAGE_TAG|g" edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
 
       - name: Stash changes except deployment.yaml
         run: |
