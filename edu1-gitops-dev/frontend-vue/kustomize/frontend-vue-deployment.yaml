@@ -4,7 +4,7 @@ metadata:
   name: frontend-vue
   namespace: edu1
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: frontend-vue
