@@ -15,6 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend-vue
-        image: <IMAGE_PLACEHOLDER>
+        image: frontend-vue
+        tag: 
         ports:
         - containerPort: 80
