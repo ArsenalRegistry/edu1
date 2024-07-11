@@ -51,20 +51,15 @@ jobs:
           push: true
           tags: ${{ secrets.AZURE_URL }}/frontend-vue:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}
 
-      - name: Update deployment.yaml with new image
+      - name: Update Kustomize Deployment with New Tag
         run: |
-          IMAGE_TAG=${{ secrets.AZURE_URL }}/frontend-vue:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}
-          sed -i "s|<IMAGE_PLACEHOLDER>|$IMAGE_TAG|g" edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
+          TAG="${{ github.event.inputs.name }}-${{ env.DATE_TAG }}"
+          sed -i "s|\(image: frontend-vue\).*|\1:$TAG|" ./edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
 
-      - name: Stash changes except deployment.yaml
+      - name: Commit and push changes
         run: |
-          git config --local user.email "arsenalrepo@gmail.com"
-          git config --local user.name "GitHub Action"
-          git stash -u
-          git stash apply || echo "No stashes to apply."
-
-      - name: Commit and Push changes to kustomization
-        run: |
-          git add edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
-          git diff-index --quiet HEAD || git commit -m "Update deployment.yaml with image ${{ secrets.AZURE_URL }}/frontend-vue:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}"
-          git push origin main || echo "No changes to commit."
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add ./edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
+          git commit -m "Update frontend-vue-deployment.yaml with tag $TAG"
+          git push
