@@ -1,70 +1,43 @@
-name: Publish Frontend-Vue Docker Azure image
+name: CI Frontend Vue
 
-on:      
-  workflow_dispatch:
-    inputs:
-      name:
-        description: "Docker TAG"
-        required: true
-        default: "master"
+on:
+  push:
+    branches:
+      - main
 
-permissions:
-  contents: write # repo wirte permission update
-    
 jobs:
-  build_and_push_to_registry:
-    name: Build and Push Docker image to Azure ACR
+  build-and-push-frontend-vue-dev:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-      
-      - name: Install dependencies
-        working-directory: ./frontend-vue
-        run: npm install
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Build Vue.js application
-        working-directory: ./frontend-vue
-        run: npm run build
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
-      - name: Get current date and time
-        id: datetime
-        run: echo "DATE_TAG=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+    - name: Log in to ACR
+      run: |
+        echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.AZURE_URL }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
 
-      - name: Log in to Azure Container Registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.AZURE_URL }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
+    - name: Build and push frontend-vue Docker image (dev)
+      run: |
+        TAG="${{ secrets.AZURE_URL }}/frontend-vue:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}"
+        docker build -f frontend-vue/Dockerfile -t ${{ secrets.AZURE_URL }}/frontend-vue:$TAG ./frontend-vue
+        docker push ${{ secrets.AZURE_URL }}/frontend-vue:$TAG
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+    - name: Update Kustomize Deployment with New Tag
+      run: |
+        TAG="${{ secrets.AZURE_URL }}/frontend-vue:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}"
+        sed -i "s|\(image: frontend-vue\).*|\1:$TAG|" ./manifest/frontend-vue/base/deployment.yaml
 
-      - name: Build and Push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: Dockerfile
-          push: true
-          tags: ${{ secrets.AZURE_URL }}/frontend-vue:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}
-
-      - name: Update Kustomize Deployment with New Tag
-        run: |
-          TAG="${{ secrets.AZURE_URL }}/frontend-vue:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}"
-          sed -i "s|\(image: frontend-vue\).*|\1:$TAG|" ./edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
-
-      - name: Commit and push changes
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add ./edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
-          git commit -m "Update frontend-vue-deployment.yaml with tag $TAG"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add ./manifest/frontend-vue/base/deployment.yaml
+        git commit -m "Update frontend-vue-deployment.yaml with tag $TAG"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
