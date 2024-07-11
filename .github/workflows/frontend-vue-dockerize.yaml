@@ -65,6 +65,6 @@ jobs:
 
       - name: Commit and Push changes to kustomization
         run: |
-          git add edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-dockerize.yaml
+          git add edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
           git diff-index --quiet HEAD || git commit -m "Update deployment.yaml with image ${{ secrets.AZURE_URL }}/frontend-vue:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}"
           git push origin main || echo "No changes to commit."
