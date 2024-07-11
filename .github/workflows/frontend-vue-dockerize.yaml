@@ -1,4 +1,4 @@
-name: Publish Docker FRONTEND-VUE Azure image
+name: Publish Docker Azure image
 
 on:      
   workflow_dispatch:
@@ -28,7 +28,9 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.AZURE_URL }}/frontend-vue
-          tags: ${{ github.event.inputs.name }}-${{ github.sha }}
+          tags: |
+            type=ref,event=workflow_dispatch
+            type=sha,event=workflow_dispatch,prefix=${{ github.event.inputs.name }}-
       
       - name: Build and Push to ACR
         uses: docker/build-push-action@v2
@@ -36,4 +38,4 @@ jobs:
           context: ./frontend-vue
           file: ../edu1-gitops-dev/frontend-vue/jenkins/Dockerfile
           push: true
-          tags: ${{ secrets.AZURE_URL }}/frontend-vue:${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
