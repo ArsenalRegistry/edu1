@@ -63,3 +63,5 @@ jobs:
           git add ./edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
           git commit -m "Update frontend-vue-deployment.yaml with tag $TAG"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
