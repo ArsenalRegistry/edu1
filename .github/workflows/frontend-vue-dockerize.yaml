@@ -55,6 +55,6 @@ jobs:
         run: |
           git config --local user.email "arsenalrepo@gmail.com"
           git config --local user.name "GitHub Action"
-          git add edu1-gitops-dev/frontend-vue/kustomize/deployment.yaml
+          git add edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
           git commit -m "Update deployment.yaml with image $IMAGE_TAG"
           git push origin main
