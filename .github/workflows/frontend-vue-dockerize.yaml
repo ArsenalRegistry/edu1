@@ -26,9 +26,7 @@ jobs:
       
       - name: Install dependencies
         working-directory: ./frontend-vue
-        run: | 
-              npm install
-              git checkout -- frontend-vue/package-lock.json  # Revert changes to package-lock.json
+        run: npm install
         
 
       - name: Build Vue.js application
