@@ -26,9 +26,9 @@ spec:
               path: actuator/health
               port: http
               scheme: HTTP
-            initialDelaySeconds: 30
-            timeoutSeconds: 30
-            periodSeconds: 15
+            initialDelaySeconds: 300
+            timeoutSeconds: 100
+            periodSeconds: 100
             successThreshold: 1
             failureThreshold: 5
           livenessProbe:
@@ -37,8 +37,8 @@ spec:
               port: http
               scheme: HTTP
             initialDelaySeconds: 300
-            timeoutSeconds: 30
-            periodSeconds: 15
+            timeoutSeconds: 300
+            periodSeconds: 100
             successThreshold: 1
             failureThreshold: 5
   minReadySeconds: 30
