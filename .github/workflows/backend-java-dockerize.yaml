@@ -76,7 +76,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git add ./edu1-gitops-dev/backend-java/kustomize/backend-java.yaml
+          git add ./edu1-gitops-dev/backend-java/kustomize/backend-java-deployment.yaml
           git commit -m "Update backend-java image to $TAG"
           git push
         env:
