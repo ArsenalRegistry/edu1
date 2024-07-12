@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # gradle 빌드 결과물을 컨테이너로 복사
-COPY build/libs/*.jar app.jar
+COPY ${JAR_PATH} app.jar
 
 # 컨테이너 실행 시 실행할 명령어 설정
 ENTRYPOINT ["java", "-jar", "app.jar"]
