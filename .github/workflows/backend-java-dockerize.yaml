@@ -39,7 +39,11 @@ jobs:
       - name: Get JAR file path
         id: get_jar_path
         run: |
-          JAR_PATH=$(find backend-java/build/libs -name '*.jar')
+          JAR_PATH=$(find backend-java/build/libs -name '*.jar' | head -n 1)
+          if [ -z "$JAR_PATH" ]; then
+            echo "No JAR file found!"
+            exit 1
+          fi
           echo "JAR_PATH=$JAR_PATH" >> $GITHUB_ENV
           echo "Found JAR file: $JAR_PATH"
 
