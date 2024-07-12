@@ -69,15 +69,15 @@ jobs:
 
       - name: Update Kustomize Deployment with New Tag
         run: |
-          TAG="${{ github.event.inputs.name }}-${{ env.DATE_TAG }}"
-          sed -i "s|\(image: backend-java\).*|\1:$TAG|" ./edu1-gitops-dev/backend-java/kustomize/backend-java-deployment.yaml
+          TAG="${{ secrets.AZURE_URL }}/backend-java:${{ github.event.inputs.name }}-${{ env.DATE_TAG }}"
+          sed -i "s|image: .*$|image: $TAG|" ./edu1-gitops-dev/backend-java/kustomize/backend-java-deployment.yaml
 
       - name: Commit and push changes
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add ./edu1-gitops-dev/backend-java/kustomize/backend-java-deployment.yaml
-          git commit -m "Update backend-java-deployment.yaml with tag $TAG"
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add ./edu1-gitops-dev/backend-java/kustomize/backend-java.yaml
+          git commit -m "Update backend-java image to $TAG"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
