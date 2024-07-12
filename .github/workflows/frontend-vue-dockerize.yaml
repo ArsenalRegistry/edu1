@@ -64,8 +64,8 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m "Update frontend-vue-deployment.yaml with tag $TAG"
+          git add ./edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
+          git commit -m "Update frontend-vue-deployment.yaml with tag $TAG" || echo "No changes to commit"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
