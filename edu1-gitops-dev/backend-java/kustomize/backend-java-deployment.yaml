@@ -17,7 +17,7 @@ spec:
       - name: acr-secret
       containers:
         - name: backend-java
-          image: ictcoe.azurecr.io/backend-java:master-20240712044726
+          image: ictcoe.azurecr.io/backend-java:master-20240712051613
           ports:
             - name: http
               containerPort: 8080
