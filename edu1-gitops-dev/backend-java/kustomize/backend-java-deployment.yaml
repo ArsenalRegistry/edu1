@@ -13,6 +13,8 @@ spec:
       labels:
         app: java-test
     spec:
+      imagePullSecrets:
+      - name: acr-secret
       containers:
         - name: backend-java
           image: ictcoe.azurecr.io/backend-java:master-20240712041337
