@@ -1,11 +1,5 @@
 apiVersion: kusomize.config.k8s.io/v1beta1
 kind: Kusomization
 resources:
-  - backend-java-secret.yaml
   - backend-java-service.yaml
   - backend-java-deployment.yaml
-  - backend-java-configmap.yaml
-images:
-  - name: backend-java
-    newName: backend-java
-    newTag: "latest"
