@@ -26,21 +26,21 @@ spec:
               path: actuator/health
               port: http
               scheme: HTTP
-            initialDelaySeconds: 300
-            timeoutSeconds: 100
-            periodSeconds: 100
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
+            periodSeconds: 30
             successThreshold: 1
-            failureThreshold: 5
+            failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: actuator/health
+              path: /actuator/health
               port: http
               scheme: HTTP
-            initialDelaySeconds: 300
-            timeoutSeconds: 300
-            periodSeconds: 100
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
+            periodSeconds: 30
             successThreshold: 1
-            failureThreshold: 5
+            failureThreshold: 3
   minReadySeconds: 30
   revisionHistoryLimit: 3
   strategy:
