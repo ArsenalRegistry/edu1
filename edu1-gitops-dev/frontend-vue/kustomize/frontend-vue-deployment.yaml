@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend-vue
-        image: ictcoe.azurecr.io/frontend-vue:master-20240712012743
+        image: ictcoe.azurecr.io/frontend-vue:master-20240712015327
         tag: 
         ports:
         - containerPort: 80
