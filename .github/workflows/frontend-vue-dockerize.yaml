@@ -27,7 +27,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./frontend-vue
         run: npm install
-        
 
       - name: Build Vue.js application
         working-directory: ./frontend-vue
@@ -65,7 +64,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add ./edu1-gitops-dev/frontend-vue/kustomize/frontend-vue-deployment.yaml
-          git commit -m "Update frontend-vue-deployment.yaml with tag $TAG" || echo "No changes to commit"
+          git commit -m "Update frontend-vue-deployment.yaml with tag $TAG"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
