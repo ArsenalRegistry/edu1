@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-test-deployment
-  namespace: appdu-demo4
+  name: backend-java
+  namespace: edu1
 spec:
   replicas: 1
   selector:
@@ -14,7 +14,7 @@ spec:
         app: java-test
     spec:
       containers:
-        - name: java-test
+        - name: backend-java
           image: image-registry.openshift-image-registry.svc:5000/appdu-demo4/java-test
           ports:
             - name: http
@@ -39,32 +39,6 @@ spec:
             periodSeconds: 15
             successThreshold: 1
             failureThreshold: 5
-          env:
-            - name: NODE_IP
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: status.hostIP
-            - name: POD_IP
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: status.podIP
-            - name: NODE_NAME
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: spec.nodeName
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  apiVersion: v1
-                  fieldPath: metadata.name
-          envFrom:
-          - configMapRef:
-              name: java-test-configmap
-          - secretRef:
-              name: java-test-secret
   minReadySeconds: 30
   revisionHistoryLimit: 3
   strategy:
