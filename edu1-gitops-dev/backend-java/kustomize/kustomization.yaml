@@ -1,5 +1,5 @@
-apiVersion: kusomize.config.k8s.io/v1beta1
-kind: Kusomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 resources:
   - backend-java-service.yaml
   - backend-java-deployment.yaml
