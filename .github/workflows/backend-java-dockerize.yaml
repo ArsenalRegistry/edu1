@@ -38,7 +38,10 @@ jobs:
 
       - name: Get JAR file path
         id: get_jar_path
-        run: echo "JAR_PATH=$(find backend-java/build/libs -name '*.jar')" >> $GITHUB_ENV
+        run: |
+          JAR_PATH=$(find backend-java/build/libs -name '*.jar')
+          echo "JAR_PATH=$JAR_PATH" >> $GITHUB_ENV
+          echo "Found JAR file: $JAR_PATH"
 
       - name: Log in to Azure Container Registry
         uses: azure/docker-login@v1
