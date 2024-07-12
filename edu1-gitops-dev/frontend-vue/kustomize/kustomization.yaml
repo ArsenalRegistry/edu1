@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - frontend-vue-deployment.yaml
   - frontend-vue-service.yaml
-  - frontend-vue-ingress.yaml
