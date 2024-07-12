@@ -7,7 +7,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # Step 3: Copy static website files into the default NGINX HTML directory
 # Replace `index.html` and other files with your own static website content
-COPY static-html-directory /usr/share/nginx/html
+COPY /frontend-vue/dist /usr/share/nginx/html
 
 # Step 4: Expose port 80 for the NGINX server
 EXPOSE 80
