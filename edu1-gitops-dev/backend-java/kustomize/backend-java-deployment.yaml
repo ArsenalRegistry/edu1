@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend-java
-          image: image-registry.openshift-image-registry.svc:5000/appdu-demo4/java-test
+          image: ictcoe.azurecr.io/backend-java:master-20240712041337
           ports:
             - name: http
               containerPort: 8080
